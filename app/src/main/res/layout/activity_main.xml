@@ -20,9 +20,18 @@
         android:gravity="center"
         tools:ignore="MissingConstraints">
 
+       
+
         <Button
-            android:text="@string/botoIn"
-            android:id="@+id/btnIn"
+            android:text="@string/repSon"
+            android:id="@+id/rpSn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </Button>
+
+        <Button
+            android:text="@string/repCanc"
+            android:id="@+id/rpCn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         </Button>

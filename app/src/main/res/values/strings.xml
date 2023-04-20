@@ -6,4 +6,9 @@
     <string name="botoIn">Iniciar</string>
     <string name="botoFin">Detener</string>
     <string name="tituloAct">Utilización de Servicios</string>
+    <string name="repSon">Reproducir sonido</string>
+    <string name="repCanc">Reproducir canción</string>
+    <string name="selSound">Seleccionado Sonido</string>
+    <string name="selSong">Seleccionada Canción</string>
+ 
 </resources>

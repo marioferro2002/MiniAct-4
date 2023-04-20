@@ -21,6 +21,14 @@
 
         <service android:enabled="true" android:name=".ElServicio"
             android:exported="false" />
+        <receiver
+            android:name=".BroadcastReciever"
+            android:exported="true">
+            <intent-filter>
+                    <action android:name="udl.eps.manejoserviciokotlininc.PLAY_SOUND" />
+                    <action android:name="udl.eps.manejoserviciokotlininc.PLAY_SONG" />
+                    <action android:name="udl.eps.manejoserviciokotlininc.STOP_PLAYBACK" />
+                </intent-filter>
+        </receiver>
     </application>
-
 </manifest>
