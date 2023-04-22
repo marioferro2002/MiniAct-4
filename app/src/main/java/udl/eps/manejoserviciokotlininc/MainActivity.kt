@@ -2,10 +2,16 @@ package udl.eps.manejoserviciokotlininc
 
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
+import android.media.MediaMetadataRetriever
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import udl.eps.manejoserviciokotlininc.databinding.ActivityMainBinding
 
 
@@ -13,11 +19,15 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var broadcastReciever: BroadcastReciever
-    private val filter = IntentFilter().apply {
-        addAction("PLAY_SOUND")
-        addAction("PLAY_SONG")
-        addAction("STOP_PLAYBACK")
-        addAction(Intent.ACTION_HEADSET_PLUG)
+    private lateinit var readCSongsReqPermLaunc: ActivityResultLauncher<String>
+    
+    
+    private val filter = IntentFilter()
+    init {
+        filter.addAction("PLAY_SOUND")
+        filter.addAction("PLAY_SONG")
+        filter.addAction("STOP_PLAYBACK")
+        filter.addAction(Intent.ACTION_HEADSET_PLUG)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -32,7 +42,14 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         binding.rpSn.setOnClickListener(this)
         binding.rpCn.setOnClickListener(this)
         binding.btnFin.setOnClickListener(this)
-
+        binding.btnChoose.setOnClickListener(this)
+    
+        readCSongsReqPermLaunc = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                songUri = uri
+            }
+        }
+    
     }
 
     override fun onDestroy() {
@@ -55,6 +72,9 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
             binding.btnFin.id -> {
                 val intent = Intent("STOP_PLAYBACK")
                 sendBroadcast(intent)
+            }
+            binding.btnChoose.id -> {
+                readCSongsReqPermLaunc.launch("audio/*")
             }
         }
     }

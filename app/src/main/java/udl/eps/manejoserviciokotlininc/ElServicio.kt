@@ -42,25 +42,27 @@ class ElServicio : Service() {
     }
     
     private fun playSound() {
-        offSoundPlayer()
-        soundPlayer = MediaPlayer.create(this, R.raw.train)
+        if (soundPlayer == null) soundPlayer = MediaPlayer.create(this, R.raw.train)
         Toast.makeText(this, R.string.selSound, Toast.LENGTH_SHORT).show()
         soundPlayer?.start()
     }
     private fun playSong() {
-        offSongPlayer()
-        songPlayer = MediaPlayer.create(this, R.raw.music)
+        if (songUri != null) getSongFromUri()
+        else if (songPlayer == null) songPlayer = MediaPlayer.create(this, R.raw.music)
         Toast.makeText(this, R.string.selSong, Toast.LENGTH_SHORT).show()
         songPlayer?.start()
     }
+    
+    private fun getSongFromUri() {
+        songPlayer = MediaPlayer()
+        songPlayer?.setDataSource(this, songUri!!)
+        songPlayer?.prepare()
+    }
+    
     private fun offSoundPlayer() {
         soundPlayer?.stop()
-        soundPlayer?.release()
-        soundPlayer = null
     }
     private fun offSongPlayer() {
         songPlayer?.stop()
-        songPlayer?.release()
-        songPlayer = null
     }
 }

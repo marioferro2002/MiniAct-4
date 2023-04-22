@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 
 class BroadcastReciever : BroadcastReceiver() {
-
+    
     var serviceIntent: Intent? = null
 
     override fun onReceive(context: Context, intent: Intent) {
