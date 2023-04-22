@@ -10,5 +10,7 @@
     <string name="repCanc">Reproducir canción</string>
     <string name="selSound">Seleccionado Sonido</string>
     <string name="selSong">Seleccionada Canción</string>
- 
+    <string name="botoChooseSound">Obtener canción Reproductor Sistema</string>
+    <string name="textChoosSong">Canción elegida:</string>
+
 </resources>
