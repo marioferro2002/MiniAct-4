@@ -6,14 +6,11 @@ import android.media.MediaPlayer
 import android.os.IBinder
 import android.widget.Toast
 
-class ElServicio: Service() {
-
-    private var soundPlayer: MediaPlayer? = null
-    private var songPlayer: MediaPlayer? = null
+class ElServicio : Service() {
 
 
     override fun onBind(p0: Intent?): IBinder? {
-       return null
+        return null
     }
 
     override fun onCreate() {
@@ -28,33 +25,42 @@ class ElServicio: Service() {
         val extras = intent?.extras
         val tipo = extras?.getString("sound_type")
 
-
-
         when (tipo) {
-                    "sound" -> {
-                        soundPlayer = MediaPlayer.create(this, R.raw.train)
-                        Toast.makeText(this, R.string.selSound, Toast.LENGTH_SHORT).show()
-                        soundPlayer?.start()
-                    }
-                    "song" -> {
-                        songPlayer = MediaPlayer.create(this, R.raw.music)
-                        Toast.makeText(this, R.string.selSong, Toast.LENGTH_SHORT).show()
-                        songPlayer?.start()
-                    }
-
-                }
+            "sound" -> playSound()
+            "song" -> playSong()
+        }
         return startId
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        soundPlayer?.stop()
-        songPlayer?.stop()
-        soundPlayer?.release()
-        songPlayer?.release()
-        soundPlayer = null
-        songPlayer = null
+
+        offSoundPlayer()
+        offSongPlayer()
 
         Toast.makeText(this, R.string.finaserv, Toast.LENGTH_LONG).show()
+    }
+    
+    private fun playSound() {
+        offSoundPlayer()
+        soundPlayer = MediaPlayer.create(this, R.raw.train)
+        Toast.makeText(this, R.string.selSound, Toast.LENGTH_SHORT).show()
+        soundPlayer?.start()
+    }
+    private fun playSong() {
+        offSongPlayer()
+        songPlayer = MediaPlayer.create(this, R.raw.music)
+        Toast.makeText(this, R.string.selSong, Toast.LENGTH_SHORT).show()
+        songPlayer?.start()
+    }
+    private fun offSoundPlayer() {
+        soundPlayer?.stop()
+        soundPlayer?.release()
+        soundPlayer = null
+    }
+    private fun offSongPlayer() {
+        songPlayer?.stop()
+        songPlayer?.release()
+        songPlayer = null
     }
 }
