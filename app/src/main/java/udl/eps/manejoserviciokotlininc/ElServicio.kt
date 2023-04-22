@@ -10,6 +10,8 @@ class ElServicio: Service() {
 
     private var soundPlayer: MediaPlayer? = null
     private var songPlayer: MediaPlayer? = null
+
+
     override fun onBind(p0: Intent?): IBinder? {
        return null
     }
@@ -26,20 +28,21 @@ class ElServicio: Service() {
         val extras = intent?.extras
         val tipo = extras?.getString("sound_type")
 
+
+
         when (tipo) {
                     "sound" -> {
                         soundPlayer = MediaPlayer.create(this, R.raw.train)
                         Toast.makeText(this, R.string.selSound, Toast.LENGTH_SHORT).show()
+                        soundPlayer?.start()
                     }
                     "song" -> {
                         songPlayer = MediaPlayer.create(this, R.raw.music)
                         Toast.makeText(this, R.string.selSong, Toast.LENGTH_SHORT).show()
+                        songPlayer?.start()
                     }
+
                 }
-
-        soundPlayer?.start()
-        songPlayer?.start()
-
         return startId
     }
 
