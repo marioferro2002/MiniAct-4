@@ -12,5 +12,8 @@
     <string name="selSong">Seleccionada Canción</string>
     <string name="botoChooseSound">Obtener canción Reproductor Sistema</string>
     <string name="textChoosSong">Canción elegida:</string>
+    <string name="PMarchaRP">Poner en marcha Reproductor propio</string>
+    <string name="ObtCancionRP">Obtener cancion del Reproductor propio</string>
+    <string name="app_not_installed">App not installed</string>
 
 </resources>

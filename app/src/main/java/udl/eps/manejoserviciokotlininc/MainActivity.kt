@@ -15,20 +15,24 @@ import androidx.appcompat.app.AppCompatActivity
 import udl.eps.manejoserviciokotlininc.databinding.ActivityMainBinding
 
 
-class MainActivity : AppCompatActivity() , View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var broadcastReciever: BroadcastReciever
     private lateinit var readCSongsReqPermLaunc: ActivityResultLauncher<String>
-    
-    
+
+
     private val filter = IntentFilter()
+
     init {
         filter.addAction("PLAY_SOUND")
         filter.addAction("PLAY_SONG")
         filter.addAction("STOP_PLAYBACK")
         filter.addAction(Intent.ACTION_HEADSET_PLUG)
+        filter.addAction("GET_SONG")
+        filter.addAction("OPEN_MUSIC_PLAYER")
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         broadcastReciever = BroadcastReciever()
@@ -43,13 +47,15 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         binding.rpCn.setOnClickListener(this)
         binding.btnFin.setOnClickListener(this)
         binding.btnChoose.setOnClickListener(this)
-    
-        readCSongsReqPermLaunc = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                songUri = uri
+        binding.btnObtenerCancRP.setOnClickListener(this)
+        binding.btnPonerMarchaRP.setOnClickListener(this)
+
+        readCSongsReqPermLaunc =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                uri?.let {
+                    songUri = uri
+                }
             }
-        }
-    
     }
 
     override fun onDestroy() {
@@ -59,7 +65,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
 
     override fun onClick(src: View) {
 
-        when(src.id) {
+        when (src.id) {
             binding.rpSn.id -> {
                 Toast.makeText(this, R.string.selSound, Toast.LENGTH_SHORT).show()
                 val intent = Intent("PLAY_SOUND")
@@ -71,6 +77,14 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
             }
             binding.btnFin.id -> {
                 val intent = Intent("STOP_PLAYBACK")
+                sendBroadcast(intent)
+            }
+            binding.btnObtenerCancRP.id -> {
+                val intent = Intent("GET_SONG")
+                sendBroadcast(intent)
+            }
+            binding.btnPonerMarchaRP.id -> {
+                val intent = Intent("OPEN_MUSIC_PLAYER")
                 sendBroadcast(intent)
             }
             binding.btnChoose.id -> {
