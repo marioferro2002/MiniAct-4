@@ -1,7 +1,9 @@
 package udl.eps.manejoserviciokotlininc
 
+import android.Manifest
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
@@ -12,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import udl.eps.manejoserviciokotlininc.databinding.ActivityMainBinding
 
 
@@ -20,6 +23,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var broadcastReciever: BroadcastReciever
     private lateinit var readCSongsReqPermLaunc: ActivityResultLauncher<String>
+    private lateinit var getSongsLauncPropio: ActivityResultLauncher<Intent>
+
 
 
     private val filter = IntentFilter()
@@ -29,8 +34,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         filter.addAction("PLAY_SONG")
         filter.addAction("STOP_PLAYBACK")
         filter.addAction(Intent.ACTION_HEADSET_PLUG)
-        filter.addAction("GET_SONG")
-        filter.addAction("OPEN_MUSIC_PLAYER")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +59,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     songUri = uri
                 }
             }
+        getSongsLauncPropio = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                songUri = result.data?.data
+            }
+        }
     }
+
 
     override fun onDestroy() {
         unregisterReceiver(broadcastReciever)
@@ -80,12 +89,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 sendBroadcast(intent)
             }
             binding.btnObtenerCancRP.id -> {
-                val intent = Intent("GET_SONG")
-                sendBroadcast(intent)
+                val intent = Intent("com.example.action.SELECT_SONG")
+                getSongsLauncPropio.launch(intent)
             }
             binding.btnPonerMarchaRP.id -> {
-                val intent = Intent("OPEN_MUSIC_PLAYER")
-                sendBroadcast(intent)
+                val packageName =
+                    "udl.eps.reproductormusicapropio" // Replace with the package name of the app you want to open
+
+                val pm = packageManager
+                val launchIntent = pm.getLaunchIntentForPackage(packageName)
+                if (launchIntent != null) {
+                    startActivity(launchIntent)
+                } else {
+                    Toast.makeText(
+                        this,
+                        "There is no package available in android",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
             binding.btnChoose.id -> {
                 readCSongsReqPermLaunc.launch("audio/*")

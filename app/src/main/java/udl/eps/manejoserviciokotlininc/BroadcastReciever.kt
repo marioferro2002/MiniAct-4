@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.PackageManagerCompat
@@ -12,6 +15,8 @@ import androidx.core.content.PackageManagerCompat
 class BroadcastReciever : BroadcastReceiver() {
 
     var serviceIntent: Intent? = null
+
+
 
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action
@@ -25,29 +30,6 @@ class BroadcastReciever : BroadcastReceiver() {
             }
             "STOP_PLAYBACK" -> {
                 stopPlayback(context)
-            }
-            "GET_SONG" -> {
-                println("GET_SONG")
-            }
-
-            "OPEN_MUSIC_PLAYER" -> {
-                println("OPEN_MUSIC_PLAYER")
-                val packageName =
-                    "com.google.android.gms.maps" // Replace with the package name of the app you want to open
-
-                val intent1 = context.packageManager.getLaunchIntentForPackage(packageName)
-                println(intent1)
-                if (intent1 != null) {
-                    startActivity(context, intent, null)
-                } else {
-                    // The app is not installed on the device
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.app_not_installed),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
             }
             Intent.ACTION_HEADSET_PLUG -> {
                 val state = intent.getIntExtra("state", -1)
