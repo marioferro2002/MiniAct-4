@@ -44,7 +44,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:width="300dp"
         android:text="@string/botoChooseSound">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btnObtenerCancRP"
+        style="@style/MaterialAlertDialog.Material3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:width="300dp"
+        android:text="@string/ObtCancionRP">
 
     </Button>
 
@@ -52,9 +64,22 @@
         android:id="@+id/btnFin"
         style="@style/MaterialAlertDialog.Material3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
+        android:textSize="19dp"
         android:layout_gravity="center"
         android:text="@string/botoFin">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btnPonerMarchaRP"
+        style="@style/MaterialAlertDialog.Material3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:width="300dp"
+        android:text="@string/PMarchaRP">
 
     </Button>
 

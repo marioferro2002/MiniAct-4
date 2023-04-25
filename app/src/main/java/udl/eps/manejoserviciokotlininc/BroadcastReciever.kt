@@ -3,17 +3,26 @@ package udl.eps.manejoserviciokotlininc
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.PackageManagerCompat
 
 class BroadcastReciever : BroadcastReceiver() {
-    
+
     var serviceIntent: Intent? = null
+
+
 
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action
         when (action) {
             "PLAY_SOUND" -> {
+                println("PLAY_SOUND")
                 playSound(context)
             }
             "PLAY_SONG" -> {
@@ -29,7 +38,7 @@ class BroadcastReciever : BroadcastReceiver() {
             }
         }
     }
-    
+
     private fun playSound(context: Context) {
         serviceIntent = Intent(context, ElServicio::class.java)
         serviceIntent!!.putExtra("sound_type", "sound")
@@ -40,7 +49,7 @@ class BroadcastReciever : BroadcastReceiver() {
             Toast.LENGTH_LONG
         ).show()
     }
-    
+
     private fun playSong(context: Context) {
         serviceIntent = Intent(context, ElServicio::class.java)
         serviceIntent!!.putExtra("sound_type", "song")
@@ -51,7 +60,7 @@ class BroadcastReciever : BroadcastReceiver() {
             Toast.LENGTH_LONG
         ).show()
     }
-    
+
     private fun stopPlayback(context: Context) {
         serviceIntent?.let { context.stopService(serviceIntent!!) }
         Toast.makeText(
